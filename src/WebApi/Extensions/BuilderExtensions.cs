@@ -1,3 +1,7 @@
+using System.Reflection;
+
+using FluentValidation;
+
 namespace VirtualBookstore.WebApi.Extensions;
 
 static class BuilderExtensions
@@ -11,4 +15,7 @@ static class BuilderExtensions
             builder.Configuration.GetConnectionString("postgresql") ?? throw new InvalidDataException("PostgreSQL connection string not found");
         builder.Services.AddNpgsqlDataSource(connectionString);
     }
+
+    internal static void AddValidation(this WebApplicationBuilder builder) =>
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 }

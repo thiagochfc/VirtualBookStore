@@ -3,6 +3,7 @@ using VirtualBookstore.WebApi.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.AddDocumentation();
 builder.AddDatabase();
+builder.AddValidation();
 
 var app = builder.Build();
 
