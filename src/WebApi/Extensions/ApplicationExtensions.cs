@@ -1,3 +1,4 @@
+using VirtualBookstore.WebApi.Authors.Endpoints;
 using VirtualBookstore.WebApi.Commons;
 
 namespace VirtualBookstore.WebApi.Extensions;
@@ -15,11 +16,18 @@ static class ApplicationExtensions
         var endpoints = app
             .MapGroup("");
 
+        // Health Check
         endpoints
             .MapGroup("/health")
             .WithName("Health Check")
             .WithTags("Health Check")
             .MapGet("/", () => new { message = "OK" });
+
+        // Authors
+        endpoints
+            .MapGroup("/authors")
+            .WithTags("Authors")
+            .MapEndpoint<CreateAuthorEndpoint>();
     }
     
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

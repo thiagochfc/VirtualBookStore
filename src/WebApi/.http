@@ -5,4 +5,14 @@
 GET {{host}}/health/
 Accept: application/json
 
-###
+### Authors
+
+POST {{host}}/authors/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Jonh Doe",
+  "email": "jonh.doe@gmail.com",
+  "description": "I'm an author"
+}
