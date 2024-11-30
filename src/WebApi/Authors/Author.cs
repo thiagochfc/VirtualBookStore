@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
-
 using Moonad;
 
 namespace VirtualBookstore.WebApi.Authors;
