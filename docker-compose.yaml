@@ -16,6 +16,7 @@ services:
     image: postgres:17.2-alpine3.20
     container_name: virtualbookstore_postgresql
     user: root
+    restart: always
     environment:
       - POSTGRES_PASSWORD=virtualbookstore_password
       - POSTGRES_USER=virtualbookstore_user
@@ -26,6 +27,12 @@ services:
       - "5432:5432"
     networks:
       - virtualbookstore_network
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U virtualbookstore_user -d virtualbookstore'" ]
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
     
   api:
     container_name: virtualbookstore_api
@@ -35,10 +42,13 @@ services:
       dockerfile: Dockerfile
     expose:
       - 8080
+    environment:
+      - ConnectionStrings__postgresql=Host=virtualbookstore_postgresql;Username=virtualbookstore_user;Password=virtualbookstore_password;Database=virtualbookstore
     networks:
       - virtualbookstore_network
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: wget --no-verbose --tries=1 http://localhost:8080/health || exit 1
       interval: 30s

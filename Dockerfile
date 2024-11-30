@@ -6,6 +6,10 @@ COPY *.sln .
 
 COPY /src ./src
 
+COPY /tests ./tests
+
+COPY /scripts ./scripts
+
 RUN dotnet restore VirtualBookstore.sln
 
 RUN dotnet publish -c Release -o out --no-restore
