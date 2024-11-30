@@ -31,6 +31,9 @@
     <EmbeddedResource Update="..\..\scripts\01-authors.sql">
       <Link>scripts\01-authors.sql</Link>
     </EmbeddedResource>
+    <EmbeddedResource Update="..\..\scripts\02-categories.sql">
+      <Link>scripts\02-categories.sql</Link>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

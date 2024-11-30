@@ -16,3 +16,13 @@ Accept: application/json
   "email": "jonh.doe@gmail.com",
   "description": "I'm an author"
 }
+
+### Categories
+
+POST {{host}}/categories/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Action"
+}
