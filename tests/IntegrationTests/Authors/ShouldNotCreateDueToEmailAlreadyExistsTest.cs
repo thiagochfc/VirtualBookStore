@@ -9,8 +9,6 @@ namespace VirtualBookstore.IntegrationTests.Authors;
 public class ShouldNotCreateDueToEmailAlreadyExistsTest(VirtualBookstoreWebApplicationFactory applicationFactory) : 
     IClassFixture<VirtualBookstoreWebApplicationFactory>
 {
-    private const string Endpoint = "/authors";
-    
     [Fact(DisplayName = "Should not create a new author due to email already exists")]
     public async Task ShouldNotCreateDueToEmailAlreadyExists()
     {
@@ -21,7 +19,7 @@ public class ShouldNotCreateDueToEmailAlreadyExistsTest(VirtualBookstoreWebAppli
         // Act
         await Utils.ExecuteConcurrently(10, async (cancellationToken) =>
         { 
-            await client.PostAsync(Endpoint,
+            await client.PostAsync(Endpoints.Authors,
                 Utils.CreateRequestAsStringContent(request), cancellationToken);
         });
         int countAuthorsCreated = await applicationFactory.Connection.QuerySingleAsync<int>("SELECT COUNT(1) FROM authors;");
