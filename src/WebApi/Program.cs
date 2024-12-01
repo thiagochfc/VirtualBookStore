@@ -1,4 +1,5 @@
 using VirtualBookstore.WebApi.Authors;
+using VirtualBookstore.WebApi.Books;
 using VirtualBookstore.WebApi.Categories;
 using VirtualBookstore.WebApi.Extensions;
 
@@ -8,6 +9,7 @@ builder.AddDatabase();
 builder.AddValidation();
 builder.AddAuthorsModule();
 builder.AddCategoriesModule();
+builder.AddBooksModule();
 
 var app = builder.Build();
 

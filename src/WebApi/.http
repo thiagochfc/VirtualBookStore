@@ -1,11 +1,9 @@
-@host = http://localhost:5079
-
 ### Health Check
 
 GET {{host}}/health/
 Accept: application/json
 
-### Authors
+### @name author
 
 POST {{host}}/authors/
 Content-Type: application/json
@@ -17,7 +15,9 @@ Accept: application/json
   "description": "I'm an author"
 }
 
-### Categories
+> {% client.global.set("authorId", response.body.id); %}
+
+### @name category
 
 POST {{host}}/categories/
 Content-Type: application/json
@@ -25,4 +25,34 @@ Accept: application/json
 
 {
   "name": "Action"
+}
+
+> {% client.global.set("categoryId", response.body.id); %}
+
+### @name book
+
+< {% 
+    const now = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(now.getDate() + 1);
+    const release = tomorrow.toISOString().substring(0, 10); 
+    
+    
+    request.variables.set("release", release);
+%}
+
+POST {{host}}/books/
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Title",
+  "resume": "Resume",
+  "summary": "Summary",
+  "price": 20.00,
+  "numberOfPages": 100,
+  "isbn": "Isbn",
+  "release": "{{release}}",
+  "categoryId": "{{categoryId}}",
+  "authorId": "{{authorId}}"
 }

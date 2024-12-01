@@ -1,4 +1,5 @@
 using VirtualBookstore.WebApi.Authors.Endpoints;
+using VirtualBookstore.WebApi.Books.Endpoints;
 using VirtualBookstore.WebApi.Categories.Endpoints;
 using VirtualBookstore.WebApi.Commons;
 
@@ -35,6 +36,12 @@ static class ApplicationExtensions
             .MapGroup("/categories")
             .WithTags("Categories")
             .MapEndpoint<CreateCategoryEndpoint>();
+        
+        // Books
+        endpoints
+            .MapGroup("/books")
+            .WithTags("Books")
+            .MapEndpoint<CreateBookEndpoint>();
     }
     
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
