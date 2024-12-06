@@ -10,6 +10,23 @@ namespace VirtualBookstore.WebApi.Stores.Categories;
 
 public sealed class CategoryStore(DbConnection connection) : StoreBase, ICategoryStore
 {
+    public async Task<Option<Category>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        const string sql = "SELECT Id, Name FROM categories WHERE Id = @Id;";
+        
+        CategoryDao? categoryDao = await connection
+            .QuerySingleOrDefaultAsync<CategoryDao>(sql, new { Id = id })
+            .ConfigureAwait(false);
+
+        if (categoryDao is null)
+        {
+            return Option.None<Category>();
+        }
+
+        return Load<Category>(categoryDao.Id, categoryDao.Name)
+            .ToOption();
+    }
+
     public async Task<Option<Category>> GetByNameAsync(string name, CancellationToken cancellationToken)
     {
         const string sql = "SELECT Id, Name FROM categories WHERE Name = @Name;";
