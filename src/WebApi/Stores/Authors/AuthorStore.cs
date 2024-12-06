@@ -10,6 +10,27 @@ namespace VirtualBookstore.WebApi.Stores.Authors;
 
 internal sealed class AuthorStore(DbConnection connection) : StoreBase, IAuthorStore
 {
+    public async Task<Option<Author>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        const string sql = "SELECT Id, Name, Email, Description, Registered FROM authors WHERE id = @Id;";
+
+        AuthorDao? authorDao = await connection
+            .QuerySingleOrDefaultAsync<AuthorDao>(sql, new { Id = id })
+            .ConfigureAwait(false);
+
+        if (authorDao is null)
+        {
+            return Option.None<Author>();
+        }
+
+        return Load<Author>(authorDao.Id,
+                authorDao.Name,
+                authorDao.Email,
+                authorDao.Description,
+                authorDao.Registered)
+            .ToOption();
+    }
+
     public async Task<Option<Author>> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
         const string sql = "SELECT Id, Name, Email, Description, Registered FROM authors WHERE email = @Email;";
